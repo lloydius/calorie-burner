@@ -6,14 +6,14 @@ import java.util.Scanner;
 
 public class UpdateProfile {
 
-    private final UserService userService;
+    private final UserController UserController;
 
-    public UpdateProfile(UserService userService) {
-        this.userService = userService; 
+    public UpdateProfile(UserController UserController) {
+        this.UserController = UserController; 
     }
 
     public void updateProfile(Scanner scanner) {
-        User loggedInUser = userService.getLoggedInUser(); 
+        User loggedInUser = UserController.getLoggedInUser(); 
 
         if (loggedInUser == null) {
             System.out.println("You must be logged in to update your profile.");
