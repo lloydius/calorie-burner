@@ -59,7 +59,7 @@ public class Main {
                     UserController.loginOrRegister(scanner);
                 }
                 case 6 -> {
-                    System.out.println("Exiting the application...");
+                    GroupName.displayGroupName();
                     scanner.close();
                     return;
                 }
