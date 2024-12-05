@@ -1,22 +1,24 @@
 package view;
 
 import model.User;
-import controller.UserService;
-import controller.WorkoutService;
+import controller.UserController;
+import controller.WorkoutController;
+import controller.UpdateProfile;
 
 import java.util.Scanner;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final UserService userService = new UserService();
-    private static final WorkoutService workoutService = new WorkoutService();
+    private static final UserController UserController = new UserController();
+    private static final WorkoutController WorkoutController = new WorkoutController();
+    private static final UpdateProfile updateProfile = new UpdateProfile(UserController);
 
     public static void main(String[] args) {
         System.out.println("==========================");
         System.out.println("Welcome to CalorieBurner!");
         System.out.println("==========================");
 
-        userService.loginOrRegister(scanner);
+        UserController.loginOrRegister(scanner);
 
         while (true) {
             System.out.println("==========================");
@@ -33,7 +35,7 @@ public class Main {
 
             switch (choice) {
                 case 1 -> {
-                    User user = userService.getLoggedInUser();
+                    User user = UserController.getLoggedInUser();
                     if (user != null) {
                         System.out.println("=== User Info ===");
                         System.out.println("Name: " + user.getName());
@@ -46,13 +48,15 @@ public class Main {
                         System.out.println("Error: No user logged in.");
                     }
                 }
-                case 2 -> userService.updateUserProfile(scanner);
-                case 3 -> workoutService.addWorkout(userService.getLoggedInUser(), scanner);
-                case 4 -> workoutService.showAndCompleteWorkouts(userService.getLoggedInUser(), scanner);
+
+                case 2 -> UserController.updateUserProfile(scanner);
+                // case 2 -> updateProfile.updateProfile(scanner);
+                case 3 -> WorkoutController.addWorkout(UserController.getLoggedInUser(), scanner);
+                case 4 -> WorkoutController.showAndCompleteWorkouts(UserController.getLoggedInUser(), scanner);
                 case 5 -> {
                     System.out.println("Logging out...");
-                    userService.setLoggedInUser(null);
-                    userService.loginOrRegister(scanner);
+                    UserController.setLoggedInUser(null);
+                    UserController.loginOrRegister(scanner);
                 }
                 case 6 -> {
                     System.out.println("Exiting the application...");
