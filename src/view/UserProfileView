@@ -12,5 +12,6 @@ public class UserProfileView {
         System.out.println("4. Change Password");
         System.out.print("Choose an option: ");
         return scanner.nextInt(); 
+
     }
 }
