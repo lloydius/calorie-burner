@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserService {
+public class UserController {
     private final List<User> users = new ArrayList<>();
     private User loggedInUser = null;
 
