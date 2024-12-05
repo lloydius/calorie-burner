@@ -4,7 +4,7 @@ import model.*;
 
 import java.util.Scanner;
 
-public class WorkoutService {
+public class WorkoutController {
 
     public void addWorkout(User user, Scanner scanner) {
         if (user == null) {
