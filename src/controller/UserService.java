@@ -94,34 +94,11 @@ public class UserService {
     }
 
     /**
-     * @deprecated This method is outdated. Use the new `updateProfile` method
+     * @deprecated This method is outdated. Use the new `updateProfile` method on UpdateProfile controller
      *             instead.
      */
     @Deprecated
     public void updateUserProfile(Scanner scanner) {
-        if (loggedInUser == null) {
-            System.out.println("You must be logged in to update your profile.");
-            return;
-        }
-
-        System.out.println("=== Update User Profile ===");
-
-        System.out.print("Enter New Age: ");
-        loggedInUser.setAge(scanner.nextInt());
-
-        System.out.print("Enter New Weight (kg): ");
-        loggedInUser.setWeight(scanner.nextDouble());
-
-        System.out.print("Enter New Height (cm): ");
-        loggedInUser.setHeight(scanner.nextDouble());
-
-        System.out.print("Enter New Password: ");
-        loggedInUser.setPassword(scanner.next());
-
-        System.out.println("Profile updated successfully!");
-    }
-
-    public void updateProfile(Scanner scanner) {
         if (loggedInUser == null) {
             System.out.println("You must be logged in to update your profile.");
             return;
