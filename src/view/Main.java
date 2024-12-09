@@ -1,9 +1,7 @@
 package view;
 
 import model.User;
-import controller.UserController;
-import controller.WorkoutController;
-import controller.UpdateProfile;
+import controller.*;
 
 import java.util.Scanner;
 
@@ -11,7 +9,8 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
     private static final UserController UserController = new UserController();
     private static final WorkoutController WorkoutController = new WorkoutController();
-    private static final UpdateProfile updateProfile = new UpdateProfile(UserController);
+    // private static final UpdateProfile updateProfile = new UpdateProfile(UserController);
+    GroupName groupName = new GroupName();
 
     public static void main(String[] args) {
         System.out.println("==========================");
@@ -59,7 +58,8 @@ public class Main {
                     UserController.loginOrRegister(scanner);
                 }
                 case 6 -> {
-                    GroupName.displayGroupName();
+                    GroupDisplay groupName = new GroupName(); 
+                    groupName.displayGroupName();  
                     scanner.close();
                     return;
                 }
