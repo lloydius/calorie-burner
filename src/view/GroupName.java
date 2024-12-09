@@ -1,8 +1,9 @@
 package view;
 
-public class GroupName {
+public class GroupName implements GroupDisplay {
 
-    public static void displayGroupName() {
+    @Override
+    public void displayGroupName() {
         System.out.println("=== KELOMPOK 4 TID23 ===");
         System.out.println("1. Ingmareza Nistyo Athallah 23051204109");
         System.out.println("2. Anggela Dwi Vanesa 23051204110");
