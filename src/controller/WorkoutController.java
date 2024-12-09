@@ -119,7 +119,7 @@ public class WorkoutController {
         }
         System.out.print("Choose an exercise: ");
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Konsumsi newline
+        scanner.nextLine(); 
         return (choice >= 1 && choice <= exercises.length) ? exercises[choice - 1] : "Unknown";
     }
 
