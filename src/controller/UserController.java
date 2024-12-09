@@ -33,8 +33,9 @@ public class UserController {
     private void login(Scanner scanner) {
         System.out.println("=== Login ===");
         System.out.print("Enter Name: ");
-        String name = scanner.next();
-
+        scanner.nextLine(); 
+        String name = scanner.nextLine();
+        
         for (User user : users) {
             if (user.getName().equals(name)) {
                 int attempts = 5;
@@ -65,7 +66,8 @@ public class UserController {
     private void register(Scanner scanner) {
         System.out.println("=== Register ===");
         System.out.print("Enter Name: ");
-        String name = scanner.next();
+        scanner.nextLine(); 
+        String name = scanner.nextLine();
 
         for (User user : users) {
             if (user.getName().equals(name)) {
