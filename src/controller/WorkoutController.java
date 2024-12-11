@@ -2,9 +2,52 @@ package controller;
 
 import model.*;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class WorkoutController {
+
+    public void saveWorkoutsToFile(User user) {
+        try (BufferedWriter writer = new BufferedWriter(
+                new FileWriter("src/data/" + user.getName() + "_workouts.txt", false))) { 
+            for (WorkoutPlan workout : user.getWorkouts()) {
+                String workoutData = workout.getWorkoutName() + ","
+                        + workout.getDuration() + ","
+                        + (workout instanceof StrengthTraining ? ((StrengthTraining) workout).getReps() : 0) + ","
+                        + workout.isCompleted();
+                writer.write(workoutData);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving workouts to file: " + e.getMessage());
+        }
+    }
+
+    public void loadWorkoutsFromFile(User user) {
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader("src/data/" + user.getName() + "_workouts.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] workoutDetails = line.split(",");
+                String workoutName = workoutDetails[0];
+                int duration = Integer.parseInt(workoutDetails[1]);
+                int reps = Integer.parseInt(workoutDetails[2]);
+                boolean isCompleted = Boolean.parseBoolean(workoutDetails[3]);
+
+                WorkoutPlan workout;
+                if (reps > 0) { 
+                    workout = new StrengthTraining(duration, reps, "Unknown", workoutName);
+                } else {
+                    workout = new CardioWorkout(duration, 0, workoutName); 
+                }
+                workout.setCompleted(isCompleted);
+
+                user.addWorkout(workout);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading workouts from file: " + e.getMessage());
+        }
+    }
 
     public void addWorkout(User user, Scanner scanner) {
         if (user == null) {
@@ -20,10 +63,6 @@ public class WorkoutController {
         scanner.nextLine();
 
         WorkoutPlan workout = null;
-
-        System.out.print("Enter duration (minutes): ");
-        int duration = scanner.nextInt();
-        scanner.nextLine();
 
         switch (workoutChoice) {
             case 1 -> {
@@ -72,7 +111,7 @@ public class WorkoutController {
                 System.out.print("Enter repetitions: ");
                 int reps = scanner.nextInt();
                 scanner.nextLine();
-                workout = new StrengthTraining(duration, reps, muscleGroup, exerciseName);
+                workout = new StrengthTraining(0, reps, muscleGroup, exerciseName);
             }
             case 2 -> {
                 System.out.println("\nChoose Cardio Exercise:");
@@ -99,17 +138,20 @@ public class WorkoutController {
                     default -> "Unknown";
                 };
 
-                System.out.print("Enter distance (km): ");
-                double distance = scanner.nextDouble();
+                System.out.print("Enter duration (minutes): ");
+                int duration = scanner.nextInt();
                 scanner.nextLine();
-                workout = new CardioWorkout(duration, distance, exerciseName);
+
+                workout = new CardioWorkout(duration, 0, exerciseName); 
             }
+
             default -> System.out.println("Invalid workout choice.");
         }
 
         if (workout != null) {
             user.addWorkout(workout);
             System.out.println("Workout added successfully!");
+            saveWorkoutsToFile(user); 
         }
     }
 
@@ -119,7 +161,7 @@ public class WorkoutController {
         }
         System.out.print("Choose an exercise: ");
         int choice = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine();
         return (choice >= 1 && choice <= exercises.length) ? exercises[choice - 1] : "Unknown";
     }
 
@@ -137,8 +179,16 @@ public class WorkoutController {
 
         int index = 1;
         for (WorkoutPlan workout : user.getWorkouts()) {
-            System.out.printf("%d. %s - %d minutes (Completed: %b)\n",
-                    index++, workout.getWorkoutName(), workout.getDuration(), workout.isCompleted());
+            String workoutDetails;
+            if (workout instanceof StrengthTraining) {
+                StrengthTraining strengthWorkout = (StrengthTraining) workout;
+                workoutDetails = String.format("%d. %s - %d reps (Completed: %b)", index++,
+                        workout.getWorkoutName(), strengthWorkout.getReps(), workout.isCompleted());
+            } else {
+                workoutDetails = String.format("%d. %s - %d minutes (Completed: %b)", index++,
+                        workout.getWorkoutName(), workout.getDuration(), workout.isCompleted());
+            }
+            System.out.println(workoutDetails);
         }
 
         System.out.print("\nEnter workout number to mark as completed (0 to exit): ");
@@ -156,6 +206,7 @@ public class WorkoutController {
             double calories = selectedWorkout.calculateCaloriesBurned();
             user.updateCaloriesBurned(calories);
             System.out.printf("Workout marked as completed! You burned %.2f kcal.\n", calories);
+            saveWorkoutsToFile(user); 
         }
     }
 
