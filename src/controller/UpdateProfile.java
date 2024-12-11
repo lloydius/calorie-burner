@@ -6,10 +6,10 @@ import java.util.Scanner;
 
 public class UpdateProfile {
 
-    private final UserController UserController;
+    private final UserController UserController; 
 
     public UpdateProfile(UserController UserController) {
-        this.UserController = UserController; 
+        this.UserController = UserController;
     }
 
     public void updateProfile(Scanner scanner) {
@@ -38,23 +38,27 @@ public class UpdateProfile {
         System.out.print("Enter New Age: ");
         loggedInUser.setAge(scanner.nextInt());
         System.out.println("Age updated successfully!");
+        UserController.overwriteUserInFile(loggedInUser);
     }
 
     private void updateWeight(Scanner scanner, User loggedInUser) {
         System.out.print("Enter New Weight (kg): ");
         loggedInUser.setWeight(scanner.nextDouble());
         System.out.println("Weight updated successfully!");
+        UserController.overwriteUserInFile(loggedInUser);
     }
 
     private void updateHeight(Scanner scanner, User loggedInUser) {
         System.out.print("Enter New Height (cm): ");
         loggedInUser.setHeight(scanner.nextDouble());
         System.out.println("Height updated successfully!");
+        UserController.overwriteUserInFile(loggedInUser);
     }
 
     private void updatePassword(Scanner scanner, User loggedInUser) {
         System.out.print("Enter New Password: ");
         loggedInUser.setPassword(scanner.next());
         System.out.println("Password updated successfully!");
+        UserController.overwriteUserInFile(loggedInUser);
     }
 }
