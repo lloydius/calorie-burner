@@ -1,85 +1,41 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class User {
-    private String name;
-    private String password;
-    private int age;
-    private double weight;
-    private double height;
-    private List<WorkoutPlan> workouts;
-    private double totalCaloriesBurned;
+public interface User {
+    void setName(String name);
 
-    public User(String name, String password, int age, double weight, double height) {
-        this.name = name;
-        this.password = password;
-        this.age = age;
-        this.weight = weight;
-        this.height = height;
-        this.workouts = new ArrayList<>();
-        this.totalCaloriesBurned = 0;
-    }
+    void setPassword(String password);
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    void setAge(int age);
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    void setWeight(double weight);
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+    void setHeight(double height);
 
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
+    String getName();
 
-    public void setHeight(double height) {
-        this.height = height;
-    }
+    String getPassword();
 
-    public String getName() {
-        return name;
-    }
+    boolean validatePassword(String password);
 
-    public boolean validatePassword(String password) {
-        return this.password.equals(password);
-    }
+    int getAge();
 
-    public int getAge() {
-        return age;
-    }
+    double getWeight();
 
-    public double getWeight() {
-        return weight;
-    }
+    double getHeight();
 
-    public double getHeight() {
-        return height;
-    }
+    double calculateBMI();
 
-    public double calculateBMI() {
-        return weight / Math.pow(height / 100, 2);
-    }
+    void addWorkout(WorkoutPlan workout);
 
-    public void addWorkout(WorkoutPlan workout) {
-        workouts.add(workout);
-    }
+    List<WorkoutPlan> getWorkouts();
 
-    public List<WorkoutPlan> getWorkouts() {
-        return workouts;
-    }
+    void updateCaloriesBurned(double calories);
 
-    public void updateCaloriesBurned(double calories) {
-        totalCaloriesBurned += calories;
-    }
+    double getTotalCaloriesBurned();
 
-    public double getTotalCaloriesBurned() {
-        return totalCaloriesBurned;
+    String getMembershipInfo();
 
-    }
+    void setMembershipStatus(String status);
 }
