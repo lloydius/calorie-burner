@@ -236,6 +236,9 @@ public class UserController {
             System.out.println("User has been upgraded to Premium!");
 
             overwriteUserInFile(premiumUser);
+            users.removeIf(user -> user.getName().equals(loggedInUser.getName()));
+            users.add(loggedInUser);
+            loadUsersFromFile();
         } else {
             System.out.println("Error: User is already a Premium member.");
         }
