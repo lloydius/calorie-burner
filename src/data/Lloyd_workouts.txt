@@ -1,0 +1,1 @@
+Bicep Curls,0,100,false
